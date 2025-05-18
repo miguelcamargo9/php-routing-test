@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
+use function call_user_func_array;
 
 /**
 * Minimal PSR-7 / PSR-15 compatible router for the coding exercise.
@@ -110,11 +111,12 @@ final class Route
         }
 
         // Parameters
-        $args = [];
-        if ($p['id'])    { $args[] = $p['id']; }
-        if ($p['subId']) { $args[] = $p['subId']; }
+        $args = array_filter([
+            isset($p['id'])    ? (int) $p['id'] : null,
+            isset($p['subId']) ? (is_numeric($p['subId']) ? (int) $p['subId'] : $p['subId']) : null,
+        ], static fn($v) => $v !== null);
 
-        return (string) \call_user_func_array([$controller, $method], $args);
+        return (string) call_user_func_array([$controller, $method], $args);
     }
 
     private function controllerMethod(string $verb, ?string $id, bool $hasSub, ?string $subId): string

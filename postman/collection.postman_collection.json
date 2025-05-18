@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "970901cb-2d55-4bc1-8bfc-1355da3d351b",
+		"name": "PHP Routing Test API",
+		"description": "Collection to test all routes of the php-routing-test project.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2404410"
+	},
+	"item": [
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "Metrics",
+					"item": [
+						{
+							"name": "GET /patients/{id}/metrics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const id = pm.variables.get('patientId') || pm.collectionVariables.get('patientId') || pm.environment.get('patientId');",
+											"",
+											"pm.test('Status code is 200', () => {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(`Body mentions patient ${id}`, () => {",
+											"    pm.expect(pm.response.text().toLowerCase())",
+											"      .to.include(`patient ${id}`.toLowerCase());",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/patients/{{patientId}}/metrics",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"patients",
+										"{{patientId}}",
+										"metrics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET /patients/{id}/metrics/abc",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test('Response body contains \"metric abc\"', function () {",
+											"    pm.expect(pm.response.text()).to.include('metric abc');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/patients/{{patientId}}/metrics/abc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"patients",
+										"{{patientId}}",
+										"metrics",
+										"abc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /patients/{id}/metrics",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test('Response body contains \"Creating\"', function () {",
+											"    pm.expect(pm.response.text()).to.include('Creating');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"HR\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/patients/{{patientId}}/metrics",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"patients",
+										"{{patientId}}",
+										"metrics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH /patients/{id}/metrics/abc",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test('Response body contains \"Updating\"', function () {",
+											"    pm.expect(pm.response.text()).to.include('Updating');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value\": 100\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/patients/{{patientId}}/metrics/abc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"patients",
+										"{{patientId}}",
+										"metrics",
+										"abc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /patients/{id}/metrics/abc",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test('Response body contains \"Deleting\"', function () {",
+											"    pm.expect(pm.response.text()).to.include('Deleting');",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/patients/{{patientId}}/metrics/abc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"patients",
+										"{{patientId}}",
+										"metrics",
+										"abc"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET /patients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response body contains \"Listing\"', function () {",
+									"    pm.expect(pm.response.text()).to.include('Listing');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/patients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /patients/{id)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const id = pm.variables.get('patientId') || pm.collectionVariables.get('patientId') || pm.environment.get('patientId');",
+									"",
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(`Body mentions patient ${id}`, () => {",
+									"    pm.expect(pm.response.text().toLowerCase())",
+									"      .to.include(`patient with ID: ${id}`.toLowerCase());",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/patients/{{patientId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"patients",
+								"{{patientId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /patients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response body contains \"Creating\"', function () {",
+									"    pm.expect(pm.response.text()).to.include('Creating');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/patients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /patients/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response body contains \"Updating\"', function () {",
+									"    pm.expect(pm.response.text()).to.include('Updating');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/patients/{{patientId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"patients",
+								"{{patientId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /patients/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Response body contains \"Deleting\"', function () {",
+									"    pm.expect(pm.response.text()).to.include('Deleting');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/patients/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"patients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "patientId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
