@@ -1,0 +1,36 @@
+# Ignore Composer dependencies
+/vendor/
+/composer.lock
+
+# Ignore system-specific configurations
+/.idea/
+/.vscode/
+/.DS_Store
+/.env
+
+# Cache files
+/cache/
+/logs/
+/tmp/
+
+# Session files
+*.session
+
+# PHPUnit configuration files
+phpunit.xml
+phpunit.xml.dist
+
+# PHP temporary and cache files
+*.log
+*.cache
+*.bak
+*.swp
+*.php~
+
+# Ignore server-specific files
+/public/.htaccess
+/public/.DS_Store
+
+# Ignore local configuration files
+.env.*
+.env
