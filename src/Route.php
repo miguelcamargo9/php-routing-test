@@ -23,24 +23,27 @@ class Route
 
         // Separate URL segments
         $segments = explode('/', $uri);
-        $resource = $segments[0] ?? null;
-        $subResource = $segments[1] ?? null;
-        $id = isset($segments[1]) && is_numeric($segments[1]) ? $segments[1] : null;
-        $subId = isset($segments[3]) ? $segments[3] : null;
+        $resource     = $segments[0] ?? null;
+        $id           = isset($segments[1]) && is_numeric($segments[1]) ? $segments[1] : null;
+        $subResource  = $segments[2] ?? null;
+        $subId        = $segments[3] ?? null;
 
-        foreach (self::$routes as $route) {
-            if (str_starts_with($route, $resource)) {
-                return self::dispatch($method, $route, $id, $subResource, $subId);
-            }
+        $routeKey = $resource;
+        if ($subResource && in_array("$resource.$subResource", self::$routes, true)) {
+            $routeKey = "$resource.$subResource";
         }
 
-        return "404 Not Found";
+        if (!in_array($routeKey, self::$routes, true)) {
+            return '404 Not Found';
+        }
+
+        return self::dispatch($method, $routeKey, $id, $subResource, $subId);
     }
 
     private static function dispatch(string $method, string $route, ?string $id, ?string $subResource, ?string $subId)
     {
         $controllerName = self::getControllerName($route, $subResource);
-        $controllerClass = "App\\Controllers\\{$controllerName}";
+        $controllerClass = "App\\Controllers\\$controllerName";
 
         if (!class_exists($controllerClass)) {
             return "404 Controller Not Found";
@@ -48,11 +51,17 @@ class Route
 
         $controller = new $controllerClass();
         $method = self::getControllerMethod($method, $id, $subId);
+
+        // Determine the parameters to send
+        $parameters = [];
+        if ($id !== null) $parameters[] = $id;
+        if ($subId !== null) $parameters[] = $subId;
+
         if (!method_exists($controller, $method)) {
             return "404 Method Not Found";
         }
 
-        return call_user_func_array([$controller, $method], array_filter([$id, $subId]));
+        return call_user_func_array([$controller, $method], $parameters);
     }
 
     private static function getControllerName(string $route, ?string $subResource): string
