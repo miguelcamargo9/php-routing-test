@@ -7,6 +7,8 @@ use App\Exceptions\NotFoundException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
 * Minimal PSR-7 / PSR-15 compatible router for the coding exercise.
@@ -18,6 +20,14 @@ final class Route
 {
     /** @var string[] */
     private array $resources = [];
+    private LoggerInterface $log;
+    private bool $debug;
+
+    public function __construct(bool $debug = false)
+    {
+        $this->debug = $debug;
+        $this->log   = Logger::create();
+    }
 
     public function resource(string $name): self
     {
@@ -32,8 +42,11 @@ final class Route
             $content             = $this->dispatch($request->getMethod(), $routeKey, $params);
         } catch (NotFoundException $e) {
             return $this->textResponse($e->getMessage(), 404);
-        } catch (\Throwable $e) {
-            return $this->textResponse('500 Internal Server Error', 500);
+        } catch (Throwable $e) {
+            $this->log->error($e->getMessage(), ['exception' => $e]);
+            $body = $this->debug ? $e->getMessage() . "\n" . $e->getTraceAsString()
+                : '500 Internal Server Error';
+            return $this->textResponse($body, 500);
         }
 
         return $this->textResponse($content);

@@ -10,7 +10,7 @@ use App\Route;
  * Return it so that public/index.php (or any front-controller)
  * can receive the instance ready to handle requests.
  */
-$router = (new Route())
+$router = (new Route($_ENV['APP_DEBUG'] ?? false))
     ->resource('patients')
     ->resource('patients.metrics');
 
