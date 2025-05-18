@@ -50,8 +50,13 @@ project-root/
 │   ├── Controller/
 │   │   ├── PatientsController.php
 │   │   └── PatientsMetricsController.php
+│   ├── Exception/
+│   │   └── RouteNotFoundException.php
 │   ├── Route.php
-│   └── index.php
+│   public/
+│   ├── index.php
+│   postman/
+│   └── collection.postman_collection.json
 ├── routes.php
 └── composer.json
 ```
@@ -59,3 +64,25 @@ project-root/
 ## PHP Version
 
 - PHP 8.0 or higher
+
+## Postman Collection
+- A Postman collection is provided to test the API endpoints.
+- The collection includes requests for all the defined routes.
+- You can import the collection into Postman to test the API.
+- The collection is located in the `postman` directory.
+
+![img.png](img.png)
+
+
+## How to Run
+1. Clone the repository.
+2. Navigate to the project directory.
+3. Install dependencies using Composer:
+   ```bash
+   composer install
+   ```
+4. Start the built-in PHP server:
+   ```bash
+    php -S localhost:8000 -t public
+    ```
+5. Open your browser and navigate to `http://localhost:8000` to access the API.

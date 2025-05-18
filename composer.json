@@ -13,5 +13,10 @@
             "name": "Miguel Camargo"
         }
     ],
-    "require": {}
+    "require": {
+        "nyholm/psr7": "^1.8",
+        "psr/http-server-handler": "^1.0",
+        "nyholm/psr7-server": "^1.1",
+        "monolog/monolog": "^3.9"
+    }
 }
