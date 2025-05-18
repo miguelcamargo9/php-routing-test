@@ -1,16 +1,23 @@
 <?php
+declare(strict_types=1);
 
-require '../vendor/autoload.php';
-require '../routes.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-use App\Route;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
 
-// Capture the HTTP method and URI
-$method = $_SERVER['REQUEST_METHOD'];
-$uri = $_SERVER['REQUEST_URI'];
+$router  = require __DIR__ . '/../routes.php';
 
-// Resolve the route
-$response = Route::resolve($method, $uri);
+$factory = new Psr17Factory();
+$request = (new ServerRequestCreator($factory, $factory, $factory, $factory))->fromGlobals();
 
-// Set the content type to JSON
-echo $response;
+$response = $router->resolve($request);
+
+http_response_code($response->getStatusCode());
+foreach ($response->getHeaders() as $name => $values) {
+    foreach ($values as $value) {
+        header("$name: $value", false);
+    }
+}
+
+echo $response->getBody();

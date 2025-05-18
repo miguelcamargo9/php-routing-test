@@ -1,11 +1,17 @@
 <?php
+declare(strict_types=1);
 
-require 'vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use App\Route;
 
-// Defining all routes
-Route::resource('patients');
-Route::resource('patients.metrics');
+/**
+ * Instantiate the router and register your REST resources.
+ * Return it so that public/index.php (or any front-controller)
+ * can receive the instance ready to handle requests.
+ */
+$router = (new Route())
+    ->resource('patients')
+    ->resource('patients.metrics');
 
-// More routes can be added here
+return $router;
