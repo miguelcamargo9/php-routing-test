@@ -50,6 +50,8 @@ project-root/
 │   ├── Controller/
 │   │   ├── PatientsController.php
 │   │   └── PatientsMetricsController.php
+│   ├── Exception/
+│   │   └── RouteNotFoundException.php
 │   ├── Route.php
 │   └── index.php
 ├── routes.php
