@@ -86,3 +86,9 @@ project-root/
     php -S localhost:8000 -t public
     ```
 5. Open your browser and navigate to `http://localhost:8000` to access the API.
+
+## Test
+To run the tests, use the following command:
+```bash
+vendor/bin/phpunit
+```

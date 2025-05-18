@@ -18,7 +18,6 @@
 
 # PHPUnit configuration files
 phpunit.xml
-phpunit.xml.dist
 
 # PHP temporary and cache files
 *.log
