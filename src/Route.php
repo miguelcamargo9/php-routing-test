@@ -42,7 +42,7 @@ class Route
 
     private static function dispatch(string $method, string $route, ?string $id, ?string $subResource, ?string $subId)
     {
-        $controllerName = self::getControllerName($route, $subResource);
+        $controllerName = self::getControllerName($route);
         $controllerClass = "App\\Controllers\\$controllerName";
 
         if (!class_exists($controllerClass)) {
@@ -50,7 +50,7 @@ class Route
         }
 
         $controller = new $controllerClass();
-        $method = self::getControllerMethod($method, $id, $subId);
+        $method = self::getControllerMethod($method, $id, $subResource, $subId);
 
         // Determine the parameters to send
         $parameters = [];
@@ -64,21 +64,29 @@ class Route
         return call_user_func_array([$controller, $method], $parameters);
     }
 
-    private static function getControllerName(string $route, ?string $subResource): string
+    private static function getControllerName(string $route): string
     {
         $parts = explode('.', $route);
-        $base = ucfirst($parts[0]);
-        return $subResource ? "{$base}MetricsController" : "{$base}Controller";
+        $base  = ucfirst($parts[0]);
+
+        if (isset($parts[1])) {
+            return "{$base}" . ucfirst($parts[1]) . "Controller";
+        }
+        return "{$base}Controller";
     }
 
-    private static function getControllerMethod(string $method, ?string $id, ?string $subId): string
-    {
-        return match ($method) {
-            'GET' => $subId ? 'get' : ($id ? 'get' : 'index'),
-            'POST' => 'create',
-            'PATCH' => 'update',
+    private static function getControllerMethod(
+        string $httpMethod,
+        ?string $id,
+        ?string $subResource,
+        ?string $subId
+    ): string {
+        return match ($httpMethod) {
+            'GET'    => $subId ? 'get' : ($subResource ? 'index' : ($id ? 'get' : 'index')),
+            'POST'   => 'create',
+            'PATCH'  => 'update',
             'DELETE' => 'delete',
-            default => 'index',
+            default  => 'index',
         };
     }
 }
